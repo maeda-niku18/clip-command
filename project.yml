@@ -1,0 +1,67 @@
+name: clip-command
+
+options:
+  bundleIdPrefix: com.joqnorandev
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.5.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # 安定した署名 ID を使い、開発ビルドのたびにアクセシビリティ許可がリセットされないようにする。
+    DEVELOPMENT_TEAM: "3C2FQLDPSD"
+    CODE_SIGN_STYLE: Manual
+    # 証明書名は環境差でマッチに失敗しやすいため SHA-1 で指定（maeda.s@shaker.jp の Apple Development）。
+    CODE_SIGN_IDENTITY: "0F5326805327E1D2C73619BB91786EAFFD8A82D4"
+    PROVISIONING_PROFILE_SPECIFIER: ""
+    ENABLE_HARDENED_RUNTIME: YES
+    # クリップボード履歴・自動貼り付け（他アプリへ ⌘V 送出）には App Sandbox は使えない。
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+targets:
+  clip-command:
+    type: application
+    platform: macOS
+    sources:
+      - path: clip-command
+    dependencies:
+      - package: Sparkle
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joqnorandev.ClipCommand
+        PRODUCT_NAME: clip-command
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        COMBINE_HIDPI_IMAGES: YES
+    info:
+      path: clip-command/Info.plist
+      properties:
+        CFBundleName: clip-command
+        CFBundleDisplayName: Clip Command
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+        CFBundlePackageType: "$(PRODUCT_BUNDLE_PACKAGE_TYPE)"
+        LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
+        # Dock アイコンなしのメニューバー常駐エージェント。
+        LSUIElement: true
+        NSHumanReadableCopyright: "Copyright © 2026 Satoshi Maeda. All rights reserved."
+        # 自動貼り付け（選択項目を前面アプリへ ⌘V）に必要なアクセシビリティ許可の説明。
+        NSAccessibilityUsageDescription: "clip-command は、選んだ項目を前面のアプリへ貼り付けるためにアクセシビリティ権限を使用します。"
+        # Sparkle 自動アップデート。
+        SUFeedURL: "https://raw.githubusercontent.com/maeda-niku18/clip-command/main/appcast.xml"
+        SUPublicEDKey: "9MgijyjAKx0ZGzzmMEw8erOluTmoLQmHQCrAFRO6yC8="
+        SUEnableAutomaticChecks: true
+        SUScheduledCheckInterval: 86400

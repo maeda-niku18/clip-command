@@ -1,0 +1,14 @@
+# XcodeGen が生成する成果物（project.yml がソース・オブ・トゥルース）
+*.xcodeproj
+clip-command/Info.plist
+
+# Xcode / SPM
+.DS_Store
+xcuserdata/
+*.xcuserstate
+.swiftpm/
+DerivedData/
+build/
+
+# 配布物（GitHub Releases で配布するため Git には含めない）
+dist/
