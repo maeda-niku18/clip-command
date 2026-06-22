@@ -45,6 +45,26 @@ xcodebuild -project "$APP_NAME.xcodeproj" -scheme "$SCHEME" \
   OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime" \
   build
 
+echo "▶︎ 2.5/7 Sparkle 内部バイナリを Developer ID で再署名（内側→外側）"
+# Xcode は framework 内部の入れ子ヘルパーを Developer ID で再署名しないことがあり、
+# その場合公証が Invalid になる。XPC → Updater.app → Autoupdate → framework → app の順に明示署名する。
+SIGN_OPTS=(--force --options runtime --timestamp --sign "$DEV_ID_APP")
+SPARKLE="$APP_PATH/Contents/Frameworks/Sparkle.framework"
+if [ -d "$SPARKLE" ]; then
+  SPV="$SPARKLE/Versions/B"
+  for item in \
+    "$SPV/XPCServices/Installer.xpc" \
+    "$SPV/XPCServices/Downloader.xpc" \
+    "$SPV/Updater.app" \
+    "$SPV/Autoupdate"; do
+    [ -e "$item" ] && codesign "${SIGN_OPTS[@]}" "$item"
+  done
+  codesign "${SIGN_OPTS[@]}" "$SPARKLE"
+fi
+# 入れ子を署名し直したので外側アプリも再署名（封印を貼り直す）。
+codesign "${SIGN_OPTS[@]}" "$APP_PATH"
+codesign --verify --deep --strict --verbose=1 "$APP_PATH"
+
 mkdir -p "$DIST_DIR"
 
 echo "▶︎ 3/7 DMG 作成"
