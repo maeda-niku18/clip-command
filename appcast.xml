@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>clip-command</title>
+        <item>
+            <title>1.0.0</title>
+            <pubDate>Mon, 22 Jun 2026 11:34:02 +0900</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.0/clip-command-1.0.0.dmg" length="1614051" type="application/octet-stream" sparkle:edSignature="w2SfohKWkcQc/ZEiwoC1OSxbqd+mPBL8VmRR3z9T7qhq1vE0sR0IcuLsorbf91SbYvSs6VG8vbKwJTjezIfyCA=="/>
+        </item>
+    </channel>
+</rss>
