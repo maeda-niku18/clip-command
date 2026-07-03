@@ -23,6 +23,8 @@ struct ClipEntry: Identifiable, Equatable, Sendable {
     let kind: ClipKind
     let text: String?
     let imageRef: String?
+    /// コピー元の書式付きテキスト（RTF）。取得できた場合のみ保持し、書式維持での貼り付けに使う。
+    var rtfData: Data?
     var isPinned: Bool = false
 
     /// リスト表示用の1行サマリ。
@@ -85,6 +87,8 @@ struct HotKeyConfig: Codable, Equatable, Sendable {
 struct AppPreferences: Equatable, Sendable {
     var historyLimit: Int = 50
     var autoPaste: Bool = true
+    /// 貼り付け時に書式を落としてプレーンテキストにするか。true で常にプレーン（既定）。
+    var pasteAsPlainText: Bool = true
     var pollInterval: Double = 0.5
     var launchAtLogin: Bool = false
     var historyHotKey: HotKeyConfig = .historyDefault

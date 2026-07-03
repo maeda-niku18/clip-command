@@ -11,9 +11,9 @@ struct IngestClipboardUseCase {
     let clipboard: ClipboardRepository
     let images: ImageRepository
 
-    func execute(text: String?, imageData: Data?, limit: Int) {
+    func execute(text: String?, rtfData: Data?, imageData: Data?, limit: Int) {
         if let text, !text.isEmpty {
-            ingestText(text)
+            ingestText(text, rtfData: rtfData)
         } else if let imageData {
             ingestImage(imageData)
         } else {
@@ -22,12 +22,12 @@ struct IngestClipboardUseCase {
         clipboard.trim(to: max(1, limit))
     }
 
-    private func ingestText(_ text: String) {
+    private func ingestText(_ text: String, rtfData: Data?) {
         // 同一テキストが既にあれば重複を作らず先頭へ移動する。
         if let existing = clipboard.fetchAll().first(where: { $0.kind == .text && $0.text == text }) {
             clipboard.touch(id: existing.id)
         } else {
-            clipboard.addText(text)
+            clipboard.addText(text, rtfData: rtfData)
         }
     }
 

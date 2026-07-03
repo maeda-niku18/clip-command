@@ -22,8 +22,8 @@ final class SwiftDataClipboardRepository: ClipboardRepository {
         fetchModels().map { $0.toEntity() }
     }
 
-    func addText(_ text: String) {
-        context.insert(ClipItemModel(kind: .text, text: text))
+    func addText(_ text: String, rtfData: Data?) {
+        context.insert(ClipItemModel(kind: .text, text: text, rtfData: rtfData))
         save()
     }
 

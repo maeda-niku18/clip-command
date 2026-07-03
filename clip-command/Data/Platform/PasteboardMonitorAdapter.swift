@@ -14,9 +14,9 @@ final class PasteboardMonitorAdapter: ClipboardWatcher {
     private var timer: Timer?
     private var lastChangeCount = 0
     private var suppress = false
-    private var onChange: ((String?, Data?) -> Void)?
+    private var onChange: ((String?, Data?, Data?) -> Void)?
 
-    func start(interval: TimeInterval, onChange: @escaping (String?, Data?) -> Void) {
+    func start(interval: TimeInterval, onChange: @escaping (String?, Data?, Data?) -> Void) {
         stop()
         self.onChange = onChange
         lastChangeCount = pasteboard.changeCount
@@ -51,14 +51,18 @@ final class PasteboardMonitorAdapter: ClipboardWatcher {
         }
 
         let text = pasteboard.string(forType: .string)
+        var rtfData: Data?
         var imageData: Data?
-        if text == nil || text?.isEmpty == true {
+        if let text, !text.isEmpty {
+            // 書式付きテキストがあれば保持（プレーン変換オフ時の書式維持貼り付けに使う）。
+            rtfData = pasteboard.data(forType: .rtf)
+        } else {
             if let objects = pasteboard.readObjects(forClasses: [NSImage.self], options: nil),
                let image = objects.first as? NSImage {
                 imageData = Self.pngData(from: image)
             }
         }
-        onChange?(text, imageData)
+        onChange?(text, rtfData, imageData)
     }
 
     /// 履歴に残さない機密ペーストボード型。

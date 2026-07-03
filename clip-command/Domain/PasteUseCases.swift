@@ -11,10 +11,12 @@ struct PasteEntryUseCase {
     let images: ImageRepository
     let paste: PasteService
 
-    func execute(entry: ClipEntry, autoPaste: Bool) {
+    func execute(entry: ClipEntry, autoPaste: Bool, asPlainText: Bool) {
         switch entry.kind {
         case .text:
-            if let text = entry.text { paste.pasteText(text, autoPaste: autoPaste) }
+            if let text = entry.text {
+                paste.pasteText(text, rtfData: entry.rtfData, asPlainText: asPlainText, autoPaste: autoPaste)
+            }
         case .image:
             if let data = images.loadData(ref: entry.imageRef) {
                 paste.pasteImage(data: data, autoPaste: autoPaste)
@@ -23,10 +25,10 @@ struct PasteEntryUseCase {
     }
 }
 
-/// 任意テキスト（スニペット本文など）を前面アプリへ貼り付ける。
+/// 任意テキスト（スニペット本文など）を前面アプリへ貼り付ける。スニペットは書式を持たないため常にプレーン。
 struct PasteTextUseCase {
     let paste: PasteService
     func execute(_ text: String, autoPaste: Bool) {
-        paste.pasteText(text, autoPaste: autoPaste)
+        paste.pasteText(text, rtfData: nil, asPlainText: true, autoPaste: autoPaste)
     }
 }

@@ -83,7 +83,8 @@ final class AppContainer {
             pasteUseCase: PasteEntryUseCase(images: images, paste: pasteService),
             quickAddUseCase: QuickAddSnippetUseCase(snippets: snippetRepository),
             images: images,
-            autoPaste: { settingsViewModel.autoPaste }
+            autoPaste: { settingsViewModel.autoPaste },
+            pasteAsPlainText: { settingsViewModel.pasteAsPlainText }
         )
 
         self.snippetViewModel = SnippetPanelViewModel(

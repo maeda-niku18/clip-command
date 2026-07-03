@@ -18,6 +18,9 @@ struct UserDefaultsPreferencesRepository: PreferencesRepository {
         if defaults.object(forKey: Keys.autoPaste) != nil {
             prefs.autoPaste = defaults.bool(forKey: Keys.autoPaste)
         }
+        if defaults.object(forKey: Keys.pasteAsPlainText) != nil {
+            prefs.pasteAsPlainText = defaults.bool(forKey: Keys.pasteAsPlainText)
+        }
         if defaults.object(forKey: Keys.pollInterval) != nil {
             prefs.pollInterval = defaults.double(forKey: Keys.pollInterval)
         }
@@ -31,6 +34,7 @@ struct UserDefaultsPreferencesRepository: PreferencesRepository {
     func save(_ preferences: AppPreferences) {
         defaults.set(preferences.historyLimit, forKey: Keys.historyLimit)
         defaults.set(preferences.autoPaste, forKey: Keys.autoPaste)
+        defaults.set(preferences.pasteAsPlainText, forKey: Keys.pasteAsPlainText)
         defaults.set(preferences.pollInterval, forKey: Keys.pollInterval)
         defaults.set(preferences.launchAtLogin, forKey: Keys.launchAtLogin)
         saveHotKey(preferences.historyHotKey, Keys.historyHotKey)
@@ -52,6 +56,7 @@ struct UserDefaultsPreferencesRepository: PreferencesRepository {
     private enum Keys {
         static let historyLimit = "historyLimit"
         static let autoPaste = "autoPaste"
+        static let pasteAsPlainText = "pasteAsPlainText"
         static let pollInterval = "pollInterval"
         static let launchAtLogin = "launchAtLogin"
         static let historyHotKey = "historyHotKey"

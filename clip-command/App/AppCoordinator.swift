@@ -103,10 +103,11 @@ final class AppCoordinator: NSObject, NSWindowDelegate {
     // MARK: - 監視 / ホットキー
 
     private func setupMonitor() {
-        container.watcher.start(interval: container.settingsViewModel.pollInterval) { [weak self] text, imageData in
+        container.watcher.start(interval: container.settingsViewModel.pollInterval) { [weak self] text, rtfData, imageData in
             guard let self else { return }
             self.container.ingestUseCase.execute(
                 text: text,
+                rtfData: rtfData,
                 imageData: imageData,
                 limit: self.container.settingsViewModel.historyLimit
             )

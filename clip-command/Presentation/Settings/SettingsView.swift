@@ -34,6 +34,9 @@ struct SettingsView: View {
                         Button("許可をリクエスト") { viewModel.requestAccessibility() }.font(.caption)
                     }
                 }
+                Toggle("プレーンテキストに変換して貼り付ける", isOn: $viewModel.pasteAsPlainText)
+                Text("オフにすると、コピー元の書式（フォント・色など）を保ったまま貼り付けます。")
+                    .font(.caption).foregroundStyle(.secondary)
             }
             Section("監視") {
                 Slider(value: $viewModel.pollInterval, in: 0.2...2.0, step: 0.1) {

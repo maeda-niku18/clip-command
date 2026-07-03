@@ -24,9 +24,14 @@ final class PasteServiceImpl: PasteService {
         _ = AXIsProcessTrustedWithOptions(options as CFDictionary)
     }
 
-    func pasteText(_ text: String, autoPaste: Bool) {
+    func pasteText(_ text: String, rtfData: Data?, asPlainText: Bool, autoPaste: Bool) {
         let pb = NSPasteboard.general
         pb.clearContents()
+        // 書式維持（プレーン変換オフ）かつ RTF があれば、RTF とプレーンの両方を載せる。
+        // 貼り付け先アプリが RTF 非対応でもプレーンにフォールバックできる。
+        if !asPlainText, let rtfData {
+            pb.setData(rtfData, forType: .rtf)
+        }
         pb.setString(text, forType: .string)
         finish(autoPaste: autoPaste)
     }

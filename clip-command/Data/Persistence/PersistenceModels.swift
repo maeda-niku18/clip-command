@@ -15,14 +15,16 @@ final class ClipItemModel {
     var createdAt: Date = Date.now
     var kindRaw: String = ClipKind.text.rawValue
     var text: String?
+    var rtfData: Data?
     var imageFileName: String?
     var pinned: Bool = false
 
-    init(kind: ClipKind, text: String? = nil, imageFileName: String? = nil) {
+    init(kind: ClipKind, text: String? = nil, rtfData: Data? = nil, imageFileName: String? = nil) {
         self.id = UUID()
         self.createdAt = .now
         self.kindRaw = kind.rawValue
         self.text = text
+        self.rtfData = rtfData
         self.imageFileName = imageFileName
         self.pinned = false
     }
@@ -34,6 +36,7 @@ final class ClipItemModel {
             kind: ClipKind(rawValue: kindRaw) ?? .text,
             text: text,
             imageRef: imageFileName,
+            rtfData: rtfData,
             isPinned: pinned
         )
     }

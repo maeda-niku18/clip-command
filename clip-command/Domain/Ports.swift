@@ -12,7 +12,7 @@ import Foundation
 /// クリップボード履歴の永続化ポート。
 protocol ClipboardRepository {
     func fetchAll() -> [ClipEntry]
-    func addText(_ text: String)
+    func addText(_ text: String, rtfData: Data?)
     @discardableResult func addImage(data: Data) -> ClipEntry?
     func touch(id: UUID)
     func setPinned(id: UUID, pinned: Bool)
@@ -44,13 +44,15 @@ protocol ImageRepository {
 protocol PasteService {
     var hasAccessibility: Bool { get }
     func requestAccessibility()
-    func pasteText(_ text: String, autoPaste: Bool)
+    /// text を貼り付ける。rtfData があり asPlainText=false のときは書式付き（RTF）で貼り付ける。
+    func pasteText(_ text: String, rtfData: Data?, asPlainText: Bool, autoPaste: Bool)
     func pasteImage(data: Data, autoPaste: Bool)
 }
 
 /// クリップボード変化の監視ポート。
 protocol ClipboardWatcher {
-    func start(interval: TimeInterval, onChange: @escaping (String?, Data?) -> Void)
+    /// onChange の引数は (プレーンテキスト, 書式付きRTF, 画像PNG)。
+    func start(interval: TimeInterval, onChange: @escaping (String?, Data?, Data?) -> Void)
     func stop()
     /// 自アプリの書き込みによる次の変化を取り込まないよう抑止する。
     func suppressNext()

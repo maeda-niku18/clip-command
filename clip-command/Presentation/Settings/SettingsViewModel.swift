@@ -49,6 +49,11 @@ final class SettingsViewModel {
         set { preferences.autoPaste = newValue; persist() }
     }
 
+    var pasteAsPlainText: Bool {
+        get { preferences.pasteAsPlainText }
+        set { preferences.pasteAsPlainText = newValue; persist() }
+    }
+
     var pollInterval: Double {
         get { preferences.pollInterval }
         set { preferences.pollInterval = newValue; persist(); onPollIntervalChanged() }

@@ -18,6 +18,7 @@ final class HistoryViewModel {
     private let quickAddUseCase: QuickAddSnippetUseCase
     private let images: ImageRepository
     private let autoPaste: () -> Bool
+    private let pasteAsPlainText: () -> Bool
 
     /// UI フロー（パネルを閉じる / 編集を開く）はコーディネータが注入する。
     var requestClose: () -> Void = {}
@@ -50,7 +51,8 @@ final class HistoryViewModel {
         pasteUseCase: PasteEntryUseCase,
         quickAddUseCase: QuickAddSnippetUseCase,
         images: ImageRepository,
-        autoPaste: @escaping () -> Bool
+        autoPaste: @escaping () -> Bool,
+        pasteAsPlainText: @escaping () -> Bool
     ) {
         self.searchUseCase = searchUseCase
         self.deleteUseCase = deleteUseCase
@@ -59,6 +61,7 @@ final class HistoryViewModel {
         self.quickAddUseCase = quickAddUseCase
         self.images = images
         self.autoPaste = autoPaste
+        self.pasteAsPlainText = pasteAsPlainText
     }
 
     func onAppear() {
@@ -94,7 +97,7 @@ final class HistoryViewModel {
 
     func paste(_ entry: ClipEntry) {
         requestClose()
-        pasteUseCase.execute(entry: entry, autoPaste: autoPaste())
+        pasteUseCase.execute(entry: entry, autoPaste: autoPaste(), asPlainText: pasteAsPlainText())
     }
 
     /// ⌘1〜9：表示中の n 番目（0始まり）を貼り付け。
