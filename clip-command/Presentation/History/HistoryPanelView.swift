@@ -183,12 +183,19 @@ struct ClipPreviewView: View {
     @ViewBuilder private var content: some View {
         switch entry.kind {
         case .text:
-            ScrollView {
-                Text(entry.text ?? "")
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            let preview = ClipPreview.truncate(entry.text ?? "")
+            VStack(alignment: .leading, spacing: 4) {
+                ScrollView {
+                    Text(preview.text)
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxHeight: 280)
+                if preview.isTruncated {
+                    Text("…先頭\(ClipPreview.maxLines)行のみ表示")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
             }
-            .frame(maxHeight: 280)
         case .image:
             if let image {
                 Image(nsImage: image).resizable().scaledToFit().frame(maxHeight: 280)

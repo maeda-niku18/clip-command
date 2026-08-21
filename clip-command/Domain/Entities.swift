@@ -27,18 +27,49 @@ struct ClipEntry: Identifiable, Equatable, Sendable {
     var rtfData: Data?
     var isPinned: Bool = false
 
-    /// リスト表示用の1行サマリ。
+    /// リスト表示用の1行サマリ。長文でも走査量を抑えるため先頭だけを見る。
     var summary: String {
         switch kind {
         case .text:
-            let line = (text ?? "")
-                .split(whereSeparator: \.isNewline)
-                .first
-                .map(String.init) ?? (text ?? "")
-            return line.isEmpty ? "（空白）" : line
+            let head = (text ?? "").prefix(ClipPreview.summaryScanLimit).drop(while: \.isNewline)
+            let line = head.prefix(while: { !$0.isNewline })
+            return line.isEmpty ? "（空白）" : String(line.prefix(ClipPreview.summaryLimit))
         case .image:
             return "画像"
         }
+    }
+}
+
+/// プレビュー表示用のテキスト整形。長文をそのまま描画すると UI が固まるため、行数と文字数で打ち切る。
+enum ClipPreview {
+    /// プレビューに出す最大行数。
+    static let maxLines = 30
+    /// プレビューに出す最大文字数（1行が極端に長い場合の保険）。
+    static let maxCharacters = 4_000
+    /// 1行サマリの最大文字数。
+    static let summaryLimit = 200
+    /// 1行サマリを作るために走査する最大文字数。
+    static let summaryScanLimit = 4_000
+
+    /// 先頭から maxLines 行 / maxCharacters 文字までを返す。打ち切ったかどうかも返す。
+    static func truncate(
+        _ text: String,
+        maxLines: Int = maxLines,
+        maxCharacters: Int = maxCharacters
+    ) -> (text: String, isTruncated: Bool) {
+        var lines = 1
+        var count = 0
+        var index = text.startIndex
+        while index < text.endIndex {
+            if count >= maxCharacters { return (String(text[..<index]), true) }
+            if text[index].isNewline {
+                if lines >= maxLines { return (String(text[..<index]), true) }
+                lines += 1
+            }
+            index = text.index(after: index)
+            count += 1
+        }
+        return (text, false)
     }
 }
 
