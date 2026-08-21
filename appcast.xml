@@ -3,13 +3,22 @@
     <channel>
         <title>clip-command</title>
         <item>
+            <title>1.0.2</title>
+            <pubDate>Fri, 21 Aug 2026 14:23:58 +0900</pubDate>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.2/clip-command-1.0.2.dmg" length="1900387" type="application/octet-stream" sparkle:edSignature="DY4yZ4l9dQUgLROlmmWZOJbOMg8S7VU199326qE2Re64Q7N0PbyxLQgz9Pw2xcXlvAxpwxl/F28UQbJFEArDDg=="/>
+        </item>
+        <item>
             <title>1.0.1</title>
             <pubDate>Mon, 22 Jun 2026 15:15:54 +0900</pubDate>
             <sparkle:version>2</sparkle:version>
             <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.1/clip-command-1.0.1.dmg" length="1893562" type="application/octet-stream" sparkle:edSignature="7aok1WgGoCwYQ1WQ89QsY8skKMzOaQxyJNpRmRUc6gkYfw+aCVq+V+en0a+LRSJy+jIuZs1f6Mci5f20aZATAQ=="/>
+            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.2/clip-command-1.0.1.dmg" length="1893562" type="application/octet-stream" sparkle:edSignature="7aok1WgGoCwYQ1WQ89QsY8skKMzOaQxyJNpRmRUc6gkYfw+aCVq+V+en0a+LRSJy+jIuZs1f6Mci5f20aZATAQ=="/>
         </item>
         <item>
             <title>1.0.0</title>
@@ -18,7 +27,7 @@
             <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.1/clip-command-1.0.0.dmg" length="1614051" type="application/octet-stream" sparkle:edSignature="w2SfohKWkcQc/ZEiwoC1OSxbqd+mPBL8VmRR3z9T7qhq1vE0sR0IcuLsorbf91SbYvSs6VG8vbKwJTjezIfyCA=="/>
+            <enclosure url="https://github.com/maeda-niku18/clip-command/releases/download/v1.0.2/clip-command-1.0.0.dmg" length="1614051" type="application/octet-stream" sparkle:edSignature="w2SfohKWkcQc/ZEiwoC1OSxbqd+mPBL8VmRR3z9T7qhq1vE0sR0IcuLsorbf91SbYvSs6VG8vbKwJTjezIfyCA=="/>
         </item>
     </channel>
 </rss>
